@@ -71,3 +71,5 @@ Future Ideas
 -Make Telegram bot generate recipes too
 -Save recipes to a database or share via links
 
+
+Author: Saloni Verma
