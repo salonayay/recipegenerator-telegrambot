@@ -1,3 +1,5 @@
+#THIS IS GENERATE RECIPE CODE
+
 from boltiotai import openai
 import os
 from flask import Flask, render_template_string, request
@@ -34,7 +36,8 @@ def hello():
   components = request.form['components']
   output = generate_tutorial(components)
 # This is a HTML template for a Custom Recipe Generator web page. It includes a form for users to input a list of ingredients/items they have, and two JavaScript functions for generating a recipe based on the input and copying the output to the clipboard. The template uses the Bootstrap CSS framework for styling.
- return render_template_string('''
+ return render_template_string(
+ '''
     <!DOCTYPE html>
     <html>
       <head>
@@ -124,3 +127,55 @@ def generate():
 
 if __name__ == '__main__':
  app.run(host='0.0.0.0', port=8080)
+
+
+#here generate receipe code ends
+
+
+
+'''
+#THIS IS TELEGRAM BOT CODE
+import os #lets us access environment variables
+
+from boltiotai import openai #to make ur bot talk like chatgpt
+
+import asyncio #lets python do multiple things at once, like chatting with multiple users at same time without freezing
+from aiogram import Bot, Dispatcher, types #bot-lets u create telegram bot, dispatcher-lets u handle messages, types-lets u send messages
+from aiogram.filters import CommandStart #lets u start bot with /start or /help command
+
+from example import example #importing example.py file
+
+bot = Bot(token='Replace this with your actual bot token id')
+
+dp = Dispatcher()
+
+openai.api_key = os.environ['OPENAI_API_KEY']
+
+example()
+
+
+@dp.message(CommandStart(['start', 'help']))
+async def welcome(message: types.Message):
+  await message.reply('Hello! I am GPT Chat BOT. You can ask me anything :)')
+
+
+@dp.message()
+async def gpt(message: types.Message):
+  messages = [{"role": "system", "content": "You are a helpful assistant."}, {"role":"user", "content":message.text}]
+
+  response = openai.chat.completions.create(model="gpt-3.5-turbo", messages=messages)
+
+  await message.reply(response['choices'][0]['message']['content'])
+
+async def main():
+  await dp.start_polling(bot)
+
+if __name__ == "__main__":
+  asyncio.run(main())
+'''
+
+
+
+
+
+
